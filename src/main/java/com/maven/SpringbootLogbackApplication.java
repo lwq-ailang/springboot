@@ -6,7 +6,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
+
 public class SpringbootLogbackApplication {
+
     private final static Logger logger = LoggerFactory.getLogger(SpringbootLogbackApplication.class);
 
     public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package com.maven.service.impl;
+package com.maven.serviceImpl;
 
 import com.maven.dao.UserDao;
 import com.maven.service.UserService;
@@ -11,6 +11,7 @@ public class UserServiceImpl implements UserService {
     @Autowired //将UserDao的bean注入到UserService中，让UserService拥有UserDao的功能
     private UserDao userDao;
 
+    @Override
     public String sayHello(String word) {
         return userDao.sayHello("word");
     }
