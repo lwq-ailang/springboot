@@ -5,31 +5,26 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!--
-    1) id: 给创建的对象一个别名（必须唯一的） (推荐使用)  ***
-
-    2) class: 需要创建类的全名（注意必须是类的全名）   ***
-
-    3) name: 给创建的对象创建多个别名，别名之间使用,逗号隔开
-
-    4) scope： 创建对象的作用域，创建单例对象还是多例对象   ***
-        singleton: 单例的，默认值。每次调用getBean方法获取的对象都是同一个！！    ***
-        prototype: 多例的。每次调用getBean方法都会创建一个新的对象！！
-        request: web中使用。每个用户的请求都会创建一个新的对象！！！
-        session: web中使用。每个session会话中都会创建一个新的对象！！！
-        globalsession： web中使用。在web集群环境中使用，在同一个集群环境下，只会有一个对象！！
-
-    5) lazy-init: 是否延迟创建对象。
-        false: 不延迟，默认值。在创建IOC容器的时候，就会根据bean配置创建好对象，等待程序来获取
-        true: 延迟。在创建IOC容器的时候，先不创建对象，等到程序来获取（getBean）的时候再创建对象
-
-    6) init-method和destroy-method： 对象的生命周期方法
-        init-method： 初始化方法。在创建完对象后立即调用init-method
-        destroy-method： 销毁方法。在销毁对象之前调用destroy-method
+        1) id: 给创建的对象一个别名（必须唯一的） (推荐使用)  ***
+        2) class: 需要创建类的全名（注意必须是类的全名）   ***
+        3) name: 给创建的对象创建多个别名，别名之间使用,逗号隔开
+        4) scope： 创建对象的作用域，创建单例对象还是多例对象   ***
+            singleton(默认值): 单例的，。每次调用getBean方法获取的对象都是同一个！！    ***
+            prototype: 多例的。每次调用getBean方法都会创建一个新的对象！！
+            request: web中使用。每个用户的请求都会创建一个新的对象！！！
+            session: web中使用。每个session会话中都会创建一个新的对象！！！
+            globalsession： web中使用。在web集群环境中使用，在同一个集群环境下，只会有一个对象！！
+        5) lazy-init: 是否延迟创建对象。
+            false: 不延迟，默认值。在创建IOC容器的时候，就会根据bean配置创建好对象，等待程序来获取
+            true: 延迟。在创建IOC容器的时候，先不创建对象，等到程序来获取（getBean）的时候再创建对象
+        6) init-method和destroy-method： 对象的生命周期方法
+            init-method： 初始化方法。在创建完对象后立即调用init-method
+            destroy-method： 销毁方法。在销毁对象之前调用destroy-method
     -->
     <bean id="user"
-          class="com.maven.pojo.User"
+          class="com.maven.bean.pojo.User"
           name="user3,user4"
           scope="singleton"
-          lazy-init="true"></bean>
+          lazy-init="true"/>
 
 </beans>

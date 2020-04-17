@@ -12,13 +12,14 @@ public class SpringbootLogbackApplication {
     private final static Logger logger = LoggerFactory.getLogger(SpringbootLogbackApplication.class);
 
     public static void main(String[] args) {
-        System.out.println("开始");
+        System.out.println("日志打印开始");
         new Thread(()->{
             for (int i=0;i<100;i++){
-                logger.info("---test---"+i);
+                logger.info("---bean---"+i);
             }
         }).start();
         SpringApplication.run(SpringbootLogbackApplication.class, args);
-        System.out.println("结束");
+        System.out.println("日志打印结束");
     }
+
 }

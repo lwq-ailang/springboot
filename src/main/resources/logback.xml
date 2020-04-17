@@ -39,7 +39,7 @@
                 <onMismatch>:用于配置不符合过滤条件的操作
             -->
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>INFO</level>
+            <level>ERROR</level>
             <onMatch>ACCEPT</onMatch>
             <onMismatch>DENY</onMismatch>
         </filter>

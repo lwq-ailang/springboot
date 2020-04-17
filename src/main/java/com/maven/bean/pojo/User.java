@@ -1,10 +1,5 @@
-package com.maven.pojo;
+package com.maven.bean.pojo;
 
-/**
- * @author: ly-wflei
- * @date: 2020/3/31
- * @version: 1.0
- */
 public class User {
 
     private String userName;
