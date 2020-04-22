@@ -1,0 +1,82 @@
+
+Executor 顾名思义是专门用来处理多线程相关的一个接口，所有县城相关的类都实现了这个接口，
+里面有一个execute()方法，用来执行线程，线程池主要提供一个线程队列，队列中保存着所有等待状态的线程。
+避免了创建与销毁的额外开销，提高了响应的速度。
+
+一、线程池接口：ExecutorService为线程池接口，提供了线程池生命周期方法，继承自Executor接口，
+    ThreadPoolExecutor为线程池实现类，提供了线程池的维护操作等相关方法，继承自AbstractExecutorService，
+    AbstractExecutorService实现了ExecutorService接口。
+
+二、线程池的体系结构：
+java.util.concurrent.Executor 负责线程的使用和调度的根接口
+        |--ExecutorService 子接口： 线程池的主要接口
+            |--AbstractExecutorService 子接口：抽象类
+            |--ScheduledExceutorService 子接口： 负责线程的调度
+                |--ThreadPoolExecutor 线程池的实现类
+                    |--ScheduledThreadPoolExecutor : 继承ThreadPoolExecutor，实现了ScheduledExecutorService
+
+工具类：
+Executors为线程迟工具类，相当于一个工厂类，用来创建合适的线程池，返回ExecutorService类型的线程池。有人如下方法。
+    1.ExecutorService newFixedThreadPool() : 创建固定大小的线程池
+    2.ExecutorService newCachedThreadPool() : 缓存线程池，线程池的数量不固定，可以根据需求自动的更改数量。
+    3.ExecutorService newSingleThreadExecutor() : 创建单个线程池。 线程池中只有一个线程
+    4.ScheduledExecutorService newScheduledThreadPool() : 创建固定大小的线程，可以延迟或定时的执行任务
+        其中AbstractExecutorService是他的抽象父类，继承自ExecutorService,ExecutorService 接口扩展Executor接口，增加了生命周期方法。
+
+
+ThreadPoolTaskExecutor：这个类则是spring包下的，是sring为我们提供的线程池类。
+    1.基于xml配置的方式创建
+        <!-- spring线程池 -->
+            <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+                <!-- 核心线程数  -->
+                <property name="corePoolSize" value="10"/>
+                <!-- 最大线程数 -->
+                <property name="maxPoolSize" value="200"/>
+                <!-- 队列最大长度 >=mainExecutor.maxSize -->
+                <property name="queueCapacity" value="10"/>
+                <!-- 线程池维护线程所允许的空闲时间 -->
+                <property name="keepAliveSeconds" value="20"/>
+                <!-- 线程池对拒绝任务(无线程可用)的处理策略 -->
+                <property name="rejectedExecutionHandler">
+                    <bean class="java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy"/>
+                </property>
+            </bean>
+
+    2.自动注入的方式注入线程池，
+        @Resource(name="taskExecutor")
+        ThreadPoolTaskExecutor taskExecutor;
+
+        @AutoWired // 或者可以直接@Autowried
+        ThreadPoolTaskExecutor taskExecutor
+
+        或者是通过配置类的方式配置线程池，然后注入。
+        @Configuration
+        public class ExecturConfig {
+            @Bean("taskExecutor")
+            public Executor taskExector() {
+                ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+                Executor executorService = Executors.newCachedThreadPool();//获取到服务器的cpu内核
+                executor.setCorePoolSize(5);//核心池大小
+                executor.setMaxPoolSize(100);//最大线程数
+                executor.setQueueCapacity(1000);//队列程度
+                executor.setKeepAliveSeconds(1000);//线程空闲时间
+                executor.setThreadNamePrefix("tsak-asyn");//线程前缀名称
+                executor.setRejectedExecutionHandler(new ThreadPoolExecutor.AbortPolicy());//配置拒绝策略
+                return executor;
+            }
+        }
+
+    拒绝策略：
+        rejectedExectutionHandler参数字段用于配置绝策略，常用拒绝策略如下：
+            AbortPolicy：用于被拒绝任务的处理程序，它将抛出RejectedExecutionException
+            CallerRunsPolicy：用于被拒绝任务的处理程序，它直接在execute方法的调用线程中运行被拒绝的任务。
+            DiscardOldestPolicy：用于被拒绝任务的处理程序，它放弃最旧的未处理请求，然后重试execute。
+            DiscardPolicy：用于被拒绝任务的处理程序，默认情况下它将丢弃被拒绝的任务。
+
+    处理流程：
+        1.当一个任务被提交到线程池时，首先查看线程池的核心线程是否都在执行任务，否就选择一条线程执行任务，就是执行第二步。
+        2.查看核心线程池是否已满，不满就创建一条线程执行任务，否则执行第三步。
+        3.查看任务队列是否已满，不满就将任务存储在任务队列中，否则执行第四步。
+        4.查看线程池是否已满，不满就创建一条线程执行任务，否则就按照策略处理无法执行的任务。
+
+
