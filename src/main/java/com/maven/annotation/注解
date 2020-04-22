@@ -1,0 +1,51 @@
+1.什么是注解？
+    Jdk1.5新增新技术，注解。很多框架为了简化代码，都会提供有些注解。可以理解为插件，是代码级别的插件，在类的方法上写：@XXX，就是在代码上插入了一个插件。
+    注解不会也不能影响代码的实际逻辑，仅仅起到辅助性的作用。
+    注解分类：1.内置注解(也成为元注解 jdk自带注解)、2.自定义注解（Spring框架）
+2.内置注解
+   （1）@SuppressWarnings   javac编译中去除警告--阶段是SOURCE
+   （2）@Deprecated   带有标记的包，方法，字段说明其过时----阶段是SOURCE
+   （3）@Overricle   打上这个标记说明该方法是将父类的方法重写--阶段是SOURCE
+3.自定义注解：定义注解类用@interface
+    元注解的作用就是负责注解其他注解。Java5.0定义了4个标准的meta-annotation类型，它们被用来提供对其它 annotation类型作说明。Java5.0定义的元注解：
+
+    1.@Target(value={})申明注解只能在哪些地方使用，
+          -- 但是默认的注解可以在类，方法，构造器，成员变量，... 使用。
+        @Target说明了Annotation所修饰的对象范围：
+        ElementType.CONSTRUCTOR:用于描述构造器
+        ElementType.FIELD:用于描述域
+        ElementType.LOCAL_VARIABLE:用于描述局部变量
+        ElementType.METHOD:用于描述方法
+        ElementType.PACKAGE:用于描述包
+        ElementType.PARAMETER:用于描述参数
+        ElementType.TYPE:用于描述类、接口(包括注解类型) 或enum声明
+
+    2.@Retention:表示允许反射获取信息
+        表示需要在什么级别保存该注释信息，用于描述注解的生命周期（即：被描述的注解在什么范围内有效）
+            作用：用来标识注解的生命周期(有效范围)
+            可使用的值定义在 RetentionPolicy 枚举类中，常用值如下:
+            * SOURCE：  注解只作用在源码阶段，   生成的字节码文件中不存在
+            * CLASS：   注解作用在源码阶段，     字节码文件阶段，    运行阶段不存在，默认值
+            -- RUNTIME：注解作用在源码阶段，     字节码文件阶段，    运行阶段（开发常用）
+    3.@Documented
+    4.@Inherited
+
+    代码:
+        使用@interface 定义注解。
+        @Target(value = { ElementType.METHOD, ElementType.TYPE })
+        @Retention(RetentionPolicy.RUNTIME)public
+        @interface OneAnnotation {int beanId() default 0;String className() default "";String[]arrays();} 
+    使用:
+        @OneAnnotation(beanId = 123, className = "className", arrays = { "111", "222" })   
+        public void add() {    }
+
+   注解作用：
+       1.标记。
+       2.方法重写约束 @Override
+       3.函数式接口约束。 @FunctionalInterface.
+       4.现今最牛逼的框架技术多半都是在使用注解和反射。
+
+
+    小结：
+    如果不声明@Target，默认可以注解所有成分。
+    @Retention注解的声明当前注解的存活范围。默认是Class只能存活到class文件中。

@@ -23,7 +23,7 @@ public class TaskExecutorConfig {
 //    @Autowired
 //    private ThreadPoolTaskExecutor taskExecutor;
 
-    @Bean("taskExecutor") //2.创建bean对象
+    @Bean("taskExecutor") //2.创建bean对象 (表示使用此线程池)
     //3.创建方法，并返回一个ThreadPoolTaskExecutor
     public Executor taskExector() {
         ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();

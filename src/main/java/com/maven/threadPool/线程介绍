@@ -27,20 +27,20 @@ Executors为线程迟工具类，相当于一个工厂类，用来创建合适�
 ThreadPoolTaskExecutor：这个类则是spring包下的，是sring为我们提供的线程池类。
     1.基于xml配置的方式创建
         <!-- spring线程池 -->
-            <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
-                <!-- 核心线程数  -->
-                <property name="corePoolSize" value="10"/>
-                <!-- 最大线程数 -->
-                <property name="maxPoolSize" value="200"/>
-                <!-- 队列最大长度 >=mainExecutor.maxSize -->
-                <property name="queueCapacity" value="10"/>
-                <!-- 线程池维护线程所允许的空闲时间 -->
-                <property name="keepAliveSeconds" value="20"/>
-                <!-- 线程池对拒绝任务(无线程可用)的处理策略 -->
-                <property name="rejectedExecutionHandler">
-                    <bean class="java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy"/>
-                </property>
-            </bean>
+        <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+            <!-- 核心线程数  -->
+            <property name="corePoolSize" value="10"/>
+            <!-- 最大线程数 -->
+            <property name="maxPoolSize" value="200"/>
+            <!-- 队列最大长度 >=mainExecutor.maxSize -->
+            <property name="queueCapacity" value="10"/>
+            <!-- 线程池维护线程所允许的空闲时间 -->
+            <property name="keepAliveSeconds" value="20"/>
+            <!-- 线程池对拒绝任务(无线程可用)的处理策略 -->
+            <property name="rejectedExecutionHandler">
+                <bean class="java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy"/>
+            </property>
+        </bean>
 
     2.自动注入的方式注入线程池，
         @Resource(name="taskExecutor")

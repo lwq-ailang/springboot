@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Profile;
 
 @Configuration
 public class ProfileConfig {
+
     @Bean
     @Profile("dev") // 1.profile为dev时示例化devDemoBean
     public ProFileDemo devDemoBean() {
@@ -17,4 +18,5 @@ public class ProfileConfig {
     public ProFileDemo prodDemoBean() {
         return new ProFileDemo("from production profile");
     }
+
 }
