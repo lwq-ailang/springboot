@@ -2,17 +2,13 @@ package com.maven.value;
 
 import java.util.ResourceBundle;
 
-/**
- * @author: ly-wflei
- * @date: 2020/3/30
- * @version: 1.0
- */
 public class ResourceBundleTest {
 
     //使用ResourceBundle读取properties
     private static ResourceBundle bundle;
 
     public static void main(String[] args) {
+        //传入ResourceBundle.properties文件中的key
         System.out.println(getBean("className"));
     }
 
