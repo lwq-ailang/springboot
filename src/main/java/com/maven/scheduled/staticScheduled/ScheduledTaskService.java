@@ -1,4 +1,4 @@
-package com.maven.scheduled;
+package com.maven.scheduled.staticScheduled;
 
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -7,9 +7,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Spring通过@Scheduled支持多种类型计划任务，包含cron,fixDelay,fixRate.
+ * 1.静态定时任务：
+ *      @Scheduled声明该方法是计划任务
+ *      Spring通过@Scheduled支持多种类型计划任务，包含cron,fixDelay,fixRate.
+ *      使用@Scheduled 注解很方便，但缺点是当我们调整了执行周期的时候，需要重启应用才能生效，这多少有些不方便。
+ *      为了达到实时生效的效果，可以使用接口来完成定时任务。
+ * 只适合处理简单的计划任务，不能处理分布式计划任务。
+ * 优势：是spring框架提供的计划任务，开发简单，执行效率比较高。且在计划任务数量太多的时候，可能出现阻塞，崩溃，延迟启动等问题。
  *
- * @Scheduled声明该方法是计划任务
  */
 @Service
 public class ScheduledTaskService {
@@ -43,7 +48,7 @@ public class ScheduledTaskService {
      */
     @Scheduled(fixedRate = 2000) //1.声明该方法是定时任务，每个2秒执行一次
     public void reportCurrentDate() {
-        System.out.println("每隔2秒执行一次 " + dateFormat.format(new Date()));
+        System.out.println("执行静态定时任务时间，每隔2秒执行一次 " + dateFormat.format(new Date()));
     }
 
     // cron 表达式：[秒] [分] [小时] [日] [月] [周] [年]

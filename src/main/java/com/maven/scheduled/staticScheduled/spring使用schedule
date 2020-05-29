@@ -1,9 +1,9 @@
 Spring配置文件xmlns加入
-    xmlns:task="http://www.springframework.org/schema/task"
+    xmlns:task="http://www.springframework.org/schema/task
 
 xsi:schemaLocation中加入
     http://www.springframework.org/schema/task
-    http://www.springframework.org/schema/task/spring-task-3.0.xsd"
+    http://www.springframework.org/schema/task/spring-task-3.0.xsd
 
 Spring扫描注解的配置
     <context:component-scan base-package="com.*.*" />
